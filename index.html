@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Submit Contract | Nyzy Transactions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tan: #c8d2e4;
+    --warm-gray: #d0d8e8;
+    --cream: #F5F2EE;
+    --dusty-blue: #1A3266;
+    --mauve: #0D1B4B;
+    --mauve-dark: #1A3266;
+    --text-dark: #0D1B4B;
+    --text-soft: #5a6070;
+    --white: #ffffff;
+    --gold: #C4A253;
+    --pale-blue: #E4EAF4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 48px 16px;
+    background: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text-dark);
+  }
+
+  .form-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+  }
+
+  .form-header {
+    background: var(--mauve);
+    padding: 44px 40px 36px;
+    text-align: center;
+  }
+
+  .form-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--white);
+    font-size: 34px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .form-header h1 em {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.5px;
+  }
+
+  .form-body {
+    padding: 40px 44px 56px;
+  }
+
+  .intro p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+
+  .notice {
+    background: var(--pale-blue);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mauve);
+    margin: 42px 0 6px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pale-blue);
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 0 0 18px;
+    font-style: italic;
+  }
+
+  .field-group {
+    margin-bottom: 22px;
+  }
+
+  .field-label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .field-hint {
+    display: block;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 6px;
+  }
+
+  .required {
+    color: var(--mauve-dark);
+    margin-left: 2px;
+  }
+
+  .row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .row > div {
+    flex: 1;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--warm-gray);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--pale-blue);
+    color: var(--text-dark);
+    font-family: 'Lora', Georgia, serif;
+    accent-color: var(--mauve);
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--mauve);
+  }
+
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .choice-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--warm-gray);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--white);
+  }
+
+  .choice-option input {
+    accent-color: var(--mauve);
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+
+  .choice-option:has(input:checked) {
+    border-color: var(--mauve);
+    background: var(--cream);
+  }
+
+  .upload-box {
+    border: 1px solid var(--dusty-blue);
+    border-radius: 4px;
+    background: var(--cream);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .upload-btn {
+    border: 1px solid var(--dusty-blue);
+    color: var(--mauve-dark);
+    background: var(--white);
+    padding: 9px 18px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .upload-hint {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .upload-filename {
+    font-size: 13px;
+    color: var(--mauve-dark);
+    font-weight: 500;
+    width: 100%;
+  }
+
+  .closing-note {
+    background: var(--cream);
+    border-left: 3px solid var(--dusty-blue);
+    padding: 14px 18px;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.6;
+    margin-top: 36px;
+    color: var(--text-soft);
+  }
+
+  .submit-row {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  button.submit-btn {
+    background: var(--gold);
+    color: var(--mauve);
+    border: none;
+    padding: 15px 52px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  button.submit-btn:hover {
+    background: #b08d3e;
+    color: var(--white);
+  }
+
+  button.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  #status-message {
+    text-align: center;
+    margin-top: 18px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  #status-message.error { color: #a05a4c; }
+
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 70px 20px;
+  }
+
+  #success-screen h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--mauve);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  #success-screen p {
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+</style>
+</head>
+<body>
+
+<div class="form-wrapper">
+  <div class="form-header">
+    <h1>Submit <em>Contract</em></h1>
+  </div>
+
+  <div class="form-body" id="form-body">
+    <div class="intro">
+      <p>Thank you for choosing <strong>NC Business Solutions</strong> to manage your transaction!</p>
+      <div class="notice">
+        Complete the form below and your contract will be processed as soon as possible.
+        <strong>As a reminder, all contracts received after 3 PM EST will be processed the next business day.</strong>
+      </div>
+    </div>
+
+    <form id="contract-form">
+
+      <!-- Property Address -->
+      <div class="field-group" style="margin-top: 34px;">
+        <label class="field-label">Property Address</label>
+        <input type="text" name="propertyAddress" placeholder="123 Main St, Nashville, TN 37201" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Your Name <span class="required">*</span></label>
+        <div class="row">
+          <div><input type="text" name="yourFirstName" required placeholder="First" /></div>
+          <div><input type="text" name="yourLastName" required placeholder="Last" /></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Your Email <span class="required">*</span></label>
+        <input type="email" name="yourEmail" required placeholder="you@brokerage.com" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Upload Contract (& any supporting docs)</label>
+        <div class="upload-box">
+          <label class="upload-btn">
+            Upload
+            <input type="file" name="contractFiles" multiple style="display:none" />
+          </label>
+          <span class="upload-hint">or drag files here.</span>
+          <div class="upload-filename" data-for="contractFiles"></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Upload Pre-Qual (unless cash)</label>
+        <div class="upload-box">
+          <label class="upload-btn">
+            Upload
+            <input type="file" name="prequalFiles" multiple style="display:none" />
+          </label>
+          <span class="upload-hint">or drag files here.</span>
+          <div class="upload-filename" data-for="prequalFiles"></div>
+        </div>
+      </div>
+
+      <!-- Client Info -->
+      <div class="section-title">Client Info</div>
+      <div class="section-sub">(can skip if on seller side and we already handled the listing docs for you)</div>
+
+      <div class="field-group">
+        <label class="field-label">Client #1 Name</label>
+        <div class="row">
+          <div><input type="text" name="client1First" placeholder="First" /></div>
+          <div><input type="text" name="client1Last" placeholder="Last" /></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Client Email</label>
+            <input type="email" name="client1Email" placeholder="client@email.com" />
+          </div>
+          <div>
+            <label class="field-label">Client Phone</label>
+            <input type="tel" name="client1Phone" placeholder="(615) 555-0123" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Client #2 Name</label>
+        <div class="row">
+          <div><input type="text" name="client2First" placeholder="First" /></div>
+          <div><input type="text" name="client2Last" placeholder="Last" /></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Client Email</label>
+            <input type="email" name="client2Email" placeholder="client@email.com" />
+          </div>
+          <div>
+            <label class="field-label">Client Phone</label>
+            <input type="tel" name="client2Phone" placeholder="(615) 555-0123" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Lender Info -->
+      <div class="section-title">Lender Info If Financed</div>
+      <div class="section-sub">(not needed if pre-qual letter is provided here)</div>
+
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Lender Name</label>
+            <input type="text" name="lenderName" />
+          </div>
+          <div>
+            <label class="field-label">Lender Email</label>
+            <input type="email" name="lenderEmail" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Title Company -->
+      <div class="section-title">Title Company/Closing Attorney Info</div>
+      <div class="section-sub">(can skip if EMAIL already listed on the contract)</div>
+
+      <div class="field-group">
+        <label class="field-label">Closing office</label>
+        <input type="text" name="closingOffice" placeholder="Name of title company or closing attorney" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Escrow Officer / Attorney Name</label>
+        <div class="row">
+          <div><input type="text" name="escrowFirstName" placeholder="First" /></div>
+          <div><input type="text" name="escrowLastName" placeholder="Last" /></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Escrow Officer / Attorney Email</label>
+            <input type="email" name="escrowEmail" placeholder="officer@titleco.com" />
+          </div>
+          <div>
+            <label class="field-label">Escrow Officer / Attorney Phone</label>
+            <input type="tel" name="escrowPhone" placeholder="(615) 555-0123" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Property Information -->
+      <div class="section-title">Property Information</div>
+
+      <div class="field-group">
+        <label class="field-label">Is Property Vacant or Occupied? <span class="required">*</span></label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="radio" name="vacantOccupied" value="Vacant" required /> Vacant</label>
+          <label class="choice-option"><input type="radio" name="vacantOccupied" value="Owner Occupied" required /> Owner Occupied</label>
+          <label class="choice-option"><input type="radio" name="vacantOccupied" value="Tenant Occupied" required /> Tenant Occupied</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Property Access Info</label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="checkbox" name="propertyAccess" value="Supra" /> Supra</label>
+          <label class="choice-option"><input type="checkbox" name="propertyAccess" value="Lockbox" /> Lockbox</label>
+          <label class="choice-option"><input type="checkbox" name="propertyAccess" value="SentriLock" /> SentriLock</label>
+          <label class="choice-option"><input type="checkbox" name="propertyAccess" value="Coded Entry" /> Coded Entry</label>
+          <label class="choice-option"><input type="checkbox" name="propertyAccess" value="Seller/Listing Agent Must Accompany" /> Seller/Listing Agent Must Accompany</label>
+        </div>
+        <span class="field-hint">If on lockbox or coded entry, please provide CODE.</span>
+        <div style="margin-top:10px;">
+          <input type="text" name="accessCode" placeholder="Code (if applicable)" />
+        </div>
+      </div>
+
+      <!-- Inspections -->
+      <div class="section-title">Inspections</div>
+
+      <div class="field-group">
+        <label class="field-label">Has the Home Inspection Been Ordered?</label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="radio" name="inspectionOrdered" value="Yes" /> Yes</label>
+          <label class="choice-option"><input type="radio" name="inspectionOrdered" value="No" /> No</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">If Home Inspection has been ordered, please indicate date/time.</label>
+        <input type="text" name="inspectionDateTime" placeholder="e.g. 6/24 at 10am" />
+      </div>
+
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Inspection Company / Inspector Name</label>
+            <input type="text" name="inspectorName" placeholder="Company or inspector name" />
+          </div>
+          <div>
+            <label class="field-label">Inspector Email</label>
+            <input type="email" name="inspectorEmail" placeholder="inspector@company.com" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group" id="needHomeInspectionGroup">
+        <label class="field-label">Does NC Business Solutions need to order a Home Inspection?</label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="radio" name="needHomeInspection" value="Yes" /> Yes</label>
+          <label class="choice-option"><input type="radio" name="needHomeInspection" value="No" /> No</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Does NC Business Solutions need to order a Termite Inspection?</label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="radio" name="needTermiteInspection" value="Yes" /> Yes</label>
+          <label class="choice-option"><input type="radio" name="needTermiteInspection" value="No" /> No</label>
+        </div>
+      </div>
+
+      <!-- Earnest Money -->
+      <div class="section-title">Earnest/Trust Money</div>
+
+      <div class="field-group">
+        <label class="field-label">How do we need to handle earnest money?</label>
+        <select name="earnestMoneyHandling">
+          <option value="">Select one...</option>
+          <option value="N/A I'm the listing agent">N/A I'm the listing agent</option>
+          <option value="Agent already has the check">Agent already has the check</option>
+          <option value="Buyer needs to mail">Buyer needs to mail</option>
+          <option value="Buyer needs to drop off">Buyer needs to drop off</option>
+          <option value="Buyer needs to wire">Buyer needs to wire</option>
+          <option value="Buyer needs to use agent's office's EM deposit system">Buyer needs to use agent's office's EM deposit system</option>
+          <option value="Already have - Transferring from other/dead file">Already have - Transferring from other/dead file</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Anything else we should know about the earnest/trust money?</label>
+        <textarea name="earnestMoneyNotes"></textarea>
+      </div>
+
+      <!-- Commission Details -->
+      <div class="section-title">Commission Details</div>
+
+      <div class="field-group">
+        <div class="row">
+          <div>
+            <label class="field-label">Buying Agent Commission</label>
+            <input type="text" name="buyingAgentCommission" placeholder="e.g. 3% or $9,000" />
+          </div>
+          <div>
+            <label class="field-label">List Agent Commission</label>
+            <input type="text" name="listAgentCommission" placeholder="leave blank if unknown" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Admin Fee Paid by Seller/Buyer? How much?</label>
+        <input type="text" name="adminFee" placeholder="e.g. Buyer, $295" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Addt'l Commission Notes</label>
+        <textarea name="commissionNotes"></textarea>
+      </div>
+
+      <!-- Referral -->
+      <div class="section-title">Referral</div>
+
+      <div class="field-group">
+        <label class="field-label">Are you paying an outside referral fee?</label>
+        <div class="choice-group">
+          <label class="choice-option"><input type="radio" name="payingReferral" value="Yes" /> Yes</label>
+          <label class="choice-option"><input type="radio" name="payingReferral" value="No" /> No</label>
+        </div>
+      </div>
+
+      <div class="field-group" id="referralDetailsGroup">
+        <div class="row">
+          <div>
+            <label class="field-label">Percentage</label>
+            <input type="text" name="referralPercentage" placeholder="e.g. 25%" />
+          </div>
+          <div>
+            <label class="field-label">Who gets the referral fee?</label>
+            <input type="text" name="referralRecipient" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Anything else we should know?</label>
+        <textarea name="additionalNotes"></textarea>
+      </div>
+
+      <div class="closing-note">
+        If you had us do your pre-listing work, as a friendly reminder, our contract-to-close service is a totally separate fee. Transaction Coordination is billed after closing.
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn" id="submit-btn">Submit</button>
+      </div>
+
+      <div id="status-message"></div>
+    </form>
+  </div>
+
+  <div id="success-screen">
+    <h2>Contract Submitted!</h2>
+    <p>Thanks &mdash; we've received your submission and will begin processing it shortly.</p>
+  </div>
+</div>
+
+<script>
+  // ====== CONFIGURATION ======
+  // Paste your deployed Google Apps Script Web App URL here.
+  // See SETUP-INSTRUCTIONS.md for how to create and deploy it.
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAxBAN42UdNwykbgtNpRQxMBBaeuiCaQBHFpTGqUFPjzpstnSs7AdHeSg2FF5WUDxX_w/exec";
+  // ============================
+
+  const form = document.getElementById('contract-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusMessage = document.getElementById('status-message');
+  const formBody = document.getElementById('form-body');
+  const successScreen = document.getElementById('success-screen');
+
+  // Conditional: hide referral details if not paying a referral fee
+  const payingReferralRadios = document.querySelectorAll('input[name="payingReferral"]');
+  const referralDetailsGroup = document.getElementById('referralDetailsGroup');
+
+  referralDetailsGroup.style.display = 'none'; // hidden by default until Yes is selected
+
+  payingReferralRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'Yes' && radio.checked) {
+        referralDetailsGroup.style.display = '';
+      } else {
+        referralDetailsGroup.style.display = 'none';
+        document.querySelectorAll('#referralDetailsGroup input').forEach(i => i.value = '');
+      }
+    });
+  });
+
+  // Conditional: hide "need to order home inspection?" if already ordered = Yes
+  const inspectionOrderedRadios = document.querySelectorAll('input[name="inspectionOrdered"]');
+  const needHomeInspectionGroup = document.getElementById('needHomeInspectionGroup');
+
+  inspectionOrderedRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'Yes' && radio.checked) {
+        needHomeInspectionGroup.style.display = 'none';
+        document.querySelectorAll('input[name="needHomeInspection"]').forEach(r => r.checked = false);
+      } else {
+        needHomeInspectionGroup.style.display = '';
+      }
+    });
+  });
+
+  // Show selected filenames next to upload buttons
+  document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', () => {
+      const display = document.querySelector(`.upload-filename[data-for="${input.name}"]`);
+      if (input.files.length) {
+        display.textContent = Array.from(input.files).map(f => f.name).join(', ');
+      } else {
+        display.textContent = '';
+      }
+    });
+  });
+
+  function fileToPayload(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve({ name: file.name, mimeType: file.type, data: reader.result });
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function filesToPayloads(fileList) {
+    return Promise.all(Array.from(fileList).map(fileToPayload));
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (SCRIPT_URL.includes('PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE')) {
+      statusMessage.className = 'error';
+      statusMessage.textContent = 'This form is not connected yet — add your Apps Script Web App URL in the HTML file (see SETUP-INSTRUCTIONS.md).';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    statusMessage.className = '';
+    statusMessage.textContent = '';
+
+    try {
+      const fd = new FormData(form);
+      const data = {};
+
+      for (const [key, value] of fd.entries()) {
+        if (key === 'contractFiles' || key === 'prequalFiles') continue;
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          if (Array.isArray(data[key])) data[key].push(value);
+          else data[key] = [data[key], value];
+        } else {
+          data[key] = value;
+        }
+      }
+
+      if (Array.isArray(data.propertyAccess)) {
+        data.propertyAccess = data.propertyAccess.join(', ');
+      }
+
+      const contractInput = form.querySelector('input[name="contractFiles"]');
+      const prequalInput = form.querySelector('input[name="prequalFiles"]');
+
+      data.contractFiles = contractInput.files.length ? await filesToPayloads(contractInput.files) : [];
+      data.prequalFiles = prequalInput.files.length ? await filesToPayloads(prequalInput.files) : [];
+
+      // text/plain content type avoids a CORS preflight, which Apps Script Web Apps don't handle.
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      });
+
+      // With mode:'no-cors' we can't read the response, so we optimistically show success.
+      formBody.style.display = 'none';
+      successScreen.style.display = 'block';
+    } catch (err) {
+      statusMessage.className = 'error';
+      statusMessage.textContent = 'Something went wrong submitting the form. Please try again or contact us directly.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+    }
+  });
+</script>
+
+</body>
+</html>
