@@ -230,6 +230,54 @@
     width: 100%;
   }
 
+  /* ── File list ── */
+  .file-list {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border: 1px solid var(--warm-gray);
+    border-radius: 4px;
+    padding: 7px 10px;
+    margin-top: 6px;
+    font-size: 13px;
+  }
+
+  .file-name {
+    color: var(--text-dark);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+
+  .file-remove {
+    background: none;
+    border: none;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0 3px;
+    flex-shrink: 0;
+  }
+
+  .file-remove:hover { color: #a05a4c; }
+
+  .file-count {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-top: 6px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
+  }
+
   .closing-note {
     background: var(--cream);
     border-left: 3px solid var(--dusty-blue);
@@ -340,11 +388,11 @@
         <label class="field-label">Upload Contract (& any supporting docs)</label>
         <div class="upload-box">
           <label class="upload-btn">
-            Upload
+            Attach Files
             <input type="file" name="contractFiles" multiple style="display:none" />
           </label>
-          <span class="upload-hint">or drag files here.</span>
-          <div class="upload-filename" data-for="contractFiles"></div>
+          <span class="upload-hint">Up to 5 files. Click to add more.</span>
+          <div class="file-list" id="contractFiles-list"></div>
         </div>
       </div>
 
@@ -352,11 +400,11 @@
         <label class="field-label">Upload Pre-Qual (unless cash)</label>
         <div class="upload-box">
           <label class="upload-btn">
-            Upload
+            Attach Files
             <input type="file" name="prequalFiles" multiple style="display:none" />
           </label>
-          <span class="upload-hint">or drag files here.</span>
-          <div class="upload-filename" data-for="prequalFiles"></div>
+          <span class="upload-hint">Up to 5 files. Click to add more.</span>
+          <div class="file-list" id="prequalFiles-list"></div>
         </div>
       </div>
 
@@ -662,15 +710,61 @@
     });
   });
 
-  // Show selected filenames next to upload buttons
+  // ── File management ────────────────────────────────────────────────────────
+  const MAX_FILES = 5;
+  const fileCollections = { contractFiles: [], prequalFiles: [] };
+
+  function renderFileList(key) {
+    const list = document.getElementById(`${key}-list`);
+    list.innerHTML = '';
+    const files = fileCollections[key];
+    files.forEach((file, i) => {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = `<span class="file-name">${file.name}</span>
+        <button type="button" class="file-remove" data-key="${key}" data-index="${i}" title="Remove">&#x2715;</button>`;
+      list.appendChild(item);
+    });
+    if (files.length > 0) {
+      const count = document.createElement('div');
+      count.className = 'file-count';
+      count.textContent = `${files.length} of ${MAX_FILES} files attached`;
+      list.appendChild(count);
+    }
+  }
+
   document.querySelectorAll('input[type="file"]').forEach(input => {
     input.addEventListener('change', () => {
-      const display = document.querySelector(`.upload-filename[data-for="${input.name}"]`);
-      if (input.files.length) {
-        display.textContent = Array.from(input.files).map(f => f.name).join(', ');
-      } else {
-        display.textContent = '';
-      }
+      const key = input.name;
+      const collection = fileCollections[key];
+      Array.from(input.files).forEach(file => {
+        if (collection.length >= MAX_FILES) return;
+        if (!collection.find(f => f.name === file.name && f.size === file.size)) {
+          collection.push(file);
+        }
+      });
+      input.value = '';  // reset so same file can be re-added if removed
+      renderFileList(key);
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('file-remove')) {
+      const key = e.target.dataset.key;
+      const idx = parseInt(e.target.dataset.index, 10);
+      fileCollections[key].splice(idx, 1);
+      renderFileList(key);
+    }
+  });
+
+  // ── Phone auto-format ────────────────────────────────────────────────────
+  document.querySelectorAll('input[type="tel"]').forEach(input => {
+    input.addEventListener('input', () => {
+      let v = input.value.replace(/\D/g, '').substring(0, 10);
+      if (v.length >= 7) v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`;
+      else if (v.length >= 4) v = `(${v.slice(0,3)}) ${v.slice(3)}`;
+      else if (v.length >= 1) v = `(${v}`;
+      input.value = v;
     });
   });
 
@@ -719,11 +813,8 @@
         data.propertyAccess = data.propertyAccess.join(', ');
       }
 
-      const contractInput = form.querySelector('input[name="contractFiles"]');
-      const prequalInput = form.querySelector('input[name="prequalFiles"]');
-
-      data.contractFiles = contractInput.files.length ? await filesToPayloads(contractInput.files) : [];
-      data.prequalFiles = prequalInput.files.length ? await filesToPayloads(prequalInput.files) : [];
+      data.contractFiles = fileCollections.contractFiles.length ? await filesToPayloads(fileCollections.contractFiles) : [];
+      data.prequalFiles = fileCollections.prequalFiles.length ? await filesToPayloads(fileCollections.prequalFiles) : [];
 
       // text/plain content type avoids a CORS preflight, which Apps Script Web Apps don't handle.
       await fetch(SCRIPT_URL, {
